@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, View, StyleSheet } from 'react-native';
 import Text from './Text';
 
 const styles = StyleSheet.create({
@@ -9,12 +9,24 @@ const styles = StyleSheet.create({
 });
 
 const AppBarTab = ({ children, onPress }) => {
+  const content = (
+    <Text color="appBarText" fontSize="subheading" fontWeight="bold">
+      {children}
+    </Text>
+  );
+
+  if (onPress) {
+    return (
+      <Pressable style={styles.tab} onPress={onPress}>
+        {content}
+      </Pressable>
+    );
+  }
+
   return (
-    <Pressable style={styles.tab} onPress={onPress}>
-      <Text color="appBarText" fontSize="subheading" fontWeight="bold">
-        {children}
-      </Text>
-    </Pressable>
+    <View style={styles.tab}>
+      {content}
+    </View>
   );
 };
 
