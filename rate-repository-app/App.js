@@ -6,6 +6,7 @@ import createApolloClient from './src/utils/apolloClient';
 const apolloClient = createApolloClient();
 
 const App = () => {
+  console.log("env check:", process.env.EXPO_PUBLIC_ENV);
   return <>
     <StatusBar style="light" />
     <NativeRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
