@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image } from 'react-native';
-import Text from './Text';
-import theme from '../theme';
+import Text from '../Text';
+import theme from '../../theme';
 
 const styles = StyleSheet.create({
   container: {
@@ -100,7 +100,7 @@ const RepositoryStats = ({ stargazersCount, forksCount, reviewCount, ratingAvera
 
 const RepositoryItem = ({ repository }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="repositoryItem">
       <RepositoryHeader
         ownerAvatarUrl={repository.ownerAvatarUrl}
         fullName={repository.fullName}

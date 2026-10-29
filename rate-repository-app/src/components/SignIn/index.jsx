@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
 import { View, TextInput, Pressable, StyleSheet } from 'react-native';
-import Text from './Text';
-import theme from '../theme';
+import Text from '../Text';
+import theme from '../../theme';
 import * as yup from 'yup';
-import useSignIn from '../hooks/useSignIn';
+import useSignIn from '../../hooks/useSignIn';
 import { useNavigate } from "react-router";
 
 const styles = StyleSheet.create({
