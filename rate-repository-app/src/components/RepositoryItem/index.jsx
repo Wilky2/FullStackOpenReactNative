@@ -1,6 +1,8 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
 import Text from '../Text';
 import theme from '../../theme';
+import { useNavigate } from 'react-router-native';
+import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,6 +46,21 @@ const styles = StyleSheet.create({
   statValue: {
     marginBottom: 4,
   },
+  button: {
+    width: '90%',
+    height: 50,
+    backgroundColor: theme.colors.primary,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 17,
+    marginVertical: 7,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: theme.fontSizes.subheading,
+    fontWeight: theme.fontWeights.bold,
+  }
 });
 
 const formatCount = (count) => {
@@ -98,22 +115,38 @@ const RepositoryStats = ({ stargazersCount, forksCount, reviewCount, ratingAvera
   );
 };
 
-const RepositoryItem = ({ repository }) => {
+const RepositoryItem = ({ repository, isNotRepositoryDetail= true }) => {
+  const navigate = useNavigate();
+
+  const navigateToRepositoryDetail = () => {
+    isNotRepositoryDetail && navigate('/' + repository.id);
+  }
+
+  const openInGitHub = () => {
+        Linking.openURL(repository.url);
+    }
+  
   return (
-    <View style={styles.container} testID="repositoryItem">
-      <RepositoryHeader
-        ownerAvatarUrl={repository.ownerAvatarUrl}
-        fullName={repository.fullName}
-        description={repository.description}
-        language={repository.language}
-      />
-      <RepositoryStats
-        stargazersCount={repository.stargazersCount}
-        forksCount={repository.forksCount}
-        reviewCount={repository.reviewCount}
-        ratingAverage={repository.ratingAverage}
-      />
-    </View>
+    <Pressable onPress={navigateToRepositoryDetail}>
+      <View style={styles.container} testID="repositoryItem">
+        <RepositoryHeader
+          ownerAvatarUrl={repository.ownerAvatarUrl}
+          fullName={repository.fullName}
+          description={repository.description}
+          language={repository.language}
+        />
+        <RepositoryStats
+          stargazersCount={repository.stargazersCount}
+          forksCount={repository.forksCount}
+          reviewCount={repository.reviewCount}
+          ratingAverage={repository.ratingAverage}
+        />
+        {!isNotRepositoryDetail && 
+        <Pressable style={styles.button} onPress={openInGitHub}>
+          <Text style={styles.buttonText}>Open in GitHub</Text>
+        </Pressable>}
+      </View>
+    </Pressable>
   );
 };
 

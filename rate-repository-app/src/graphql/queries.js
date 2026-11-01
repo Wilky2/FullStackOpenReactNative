@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-const REPOSITORY_DETAILS = gql`
-  fragment RepositoryDetails on Repository {
+const REPOSITORY_DETAIL = gql`
+  fragment RepositoryDetail on Repository {
     id
     fullName
     description
@@ -11,6 +11,7 @@ const REPOSITORY_DETAILS = gql`
     reviewCount
     ratingAverage
     ownerAvatarUrl
+    url
   }
 `;
 
@@ -19,13 +20,23 @@ export const GET_REPOSITORIES = gql`
     repositories {
       edges {
         node {
-          ...RepositoryDetails
+          ...RepositoryDetail
         }
       }
     }
   }
 
-  ${REPOSITORY_DETAILS}
+  ${REPOSITORY_DETAIL}
+`;
+
+export const GET_REPOSITORY = gql`
+  query GET_REPOSITORY($repositoryId: ID!) {
+    repository(id: $repositoryId) {
+      ...RepositoryDetail
+    }
+  }
+
+  ${REPOSITORY_DETAIL}
 `;
 
 export const ME = gql`
