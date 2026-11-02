@@ -1,8 +1,18 @@
 import { useParams } from "react-router-native";
 import RepositoryItem from "../RepositoryItem";
 import useRepository from "../../hooks/useRepository";
-import { View } from "react-native-web";
+import useReviews from "../../hooks/useReviews";
+import { View, FlatList, StyleSheet } from "react-native-web";
 import Text from '../Text';
+import ReviewItem from "./ReviewItem";
+
+const styles = StyleSheet.create({
+    separator: {
+        height: 10,
+    },
+});
+
+const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryDetail = () => {
     
@@ -10,7 +20,12 @@ const RepositoryDetail = () => {
 
     const { repository, loading } = useRepository(repositoryId);    
 
-    if(loading) {
+    const { reviews, reviewLoading } = useReviews(repositoryId);
+
+    const reviewsNodes = reviews ? 
+        reviews.edges.map(edge => edge.node) : [];
+
+    if(loading || reviewLoading) {
         return (
             <View>
                 <Text>Loading...</Text>
@@ -21,6 +36,12 @@ const RepositoryDetail = () => {
     return (
         <View>
             <RepositoryItem repository={repository} isNotRepositoryDetail={false}/>
+            <FlatList
+                data={reviewsNodes}
+                ItemSeparatorComponent={ItemSeparator}
+                renderItem={({ item }) => <ReviewItem review={item} />}
+                keyExtractor={item => item.id}
+            />
         </View>
     )
 };

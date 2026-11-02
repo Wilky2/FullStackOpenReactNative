@@ -11,7 +11,6 @@ const REPOSITORY_DETAIL = gql`
     reviewCount
     ratingAverage
     ownerAvatarUrl
-    url
   }
 `;
 
@@ -32,12 +31,34 @@ export const GET_REPOSITORIES = gql`
 export const GET_REPOSITORY = gql`
   query GET_REPOSITORY($repositoryId: ID!) {
     repository(id: $repositoryId) {
-      ...RepositoryDetail
+      ...RepositoryDetail,
+      url
     }
   }
 
   ${REPOSITORY_DETAIL}
 `;
+
+export const GET_REVIEWS = gql`
+  query GET_REVIEWS($repositoryId: ID!) {
+    repository(id: $repositoryId) {
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export const ME = gql`
     query {
