@@ -34,6 +34,7 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal style={styles.container}>
         <Link to="/"><AppBarTab >Repositories</AppBarTab></Link>
+        {data.me && <Link to="/create-review"><AppBarTab>CreateReview</AppBarTab></Link>}     
         {data.me ? <AppBarTab onPress={onPress}>SignOut</AppBarTab> : <Link to="/signin"><AppBarTab>SignIn</AppBarTab></Link>}
       </ScrollView>
     </View>
