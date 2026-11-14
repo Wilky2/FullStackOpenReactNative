@@ -15,8 +15,16 @@ const REPOSITORY_DETAIL = gql`
 `;
 
 export const GET_REPOSITORIES = gql`
-  query {
-    repositories {
+  query GET_REPOSITORIES(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+    $searchKeyword: String
+  ) {
+    repositories(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      searchKeyword: $searchKeyword
+    ) {
       edges {
         node {
           ...RepositoryDetail
@@ -58,7 +66,7 @@ export const GET_REVIEWS = gql`
       }
     }
   }
-`
+`;
 
 export const ME = gql`
     query {
