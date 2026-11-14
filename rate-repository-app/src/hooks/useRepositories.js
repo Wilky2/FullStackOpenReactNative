@@ -8,10 +8,13 @@ const useRepositories = (variables, orderDirection, searchKeyword) => {
     queryVariables = {
       orderBy: variables,
       orderDirection,
-      searchKeyword,
+      searchKeyword: searchKeyword?.trim() || undefined,
     };
   } else if (typeof variables === 'object' && variables !== null) {
-    queryVariables = variables;
+    queryVariables = {
+      ...variables,
+      searchKeyword: variables.searchKeyword?.trim() || undefined,
+    };
   }
 
   const { data, loading, refetch } = useQuery(GET_REPOSITORIES, {
