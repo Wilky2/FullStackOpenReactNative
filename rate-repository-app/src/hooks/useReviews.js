@@ -2,26 +2,37 @@ import { GET_REVIEWS, ME } from '../graphql/queries';
 import { useQuery } from '@apollo/client/react';
 
 const useReviews = (repositoryId) => {
-   if(repositoryId) {
-      const { data, loading } = useQuery(GET_REVIEWS, {
-         fetchPolicy: 'cache-and-network',
-         variables: {
-            repositoryId
-         } 
-      });
+  const repositoryReviews = useQuery(GET_REVIEWS, {
+    fetchPolicy: 'cache-and-network',
+    variables: {
+      repositoryId,
+    },
+    skip: !repositoryId,
+  });
 
-      return { reviews: data?.repository.reviews, loading };
-   }
+  const meReviews = useQuery(ME, {
+    fetchPolicy: 'cache-and-network',
+    variables: {
+      includeReviews: true,
+    },
+    skip: !!repositoryId,
+  });
 
-   const { data, loading } = useQuery(ME, {
-      fetchPolicy: 'cache-and-network',
-      variables: {
-         includeReviews: true
-      }
-   });
+  if (repositoryId) {
+    return {
+      reviews: repositoryReviews.data?.repository?.reviews,
+      loading: repositoryReviews.loading,
+      reviewLoading: repositoryReviews.loading,
+      refetch: repositoryReviews.refetch,
+    };
+  }
 
-   return {reviews : data?.me.reviews, loading};
-   
+  return {
+    reviews: meReviews.data?.me?.reviews,
+    loading: meReviews.loading,
+    reviewLoading: meReviews.loading,
+    refetch: meReviews.refetch,
+  };
 };
 
 export default useReviews;

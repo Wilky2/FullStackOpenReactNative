@@ -2,7 +2,7 @@ import { useParams } from "react-router-native";
 import RepositoryItem from "../RepositoryItem";
 import useRepository from "../../hooks/useRepository";
 import useReviews from "../../hooks/useReviews";
-import { View, FlatList, StyleSheet } from "react-native-web";
+import { View, FlatList, StyleSheet } from "react-native";
 import Text from '../Text';
 import ReviewItem from "./ReviewItem";
 
